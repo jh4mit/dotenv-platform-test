@@ -7,7 +7,6 @@ authors = [
 ]
 dependencies = [
     "python-dotenv>=1.0.1",
-    "tox>=4.23.2",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

@@ -19,8 +19,21 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Tox
-        run: pip install tox
+      - name: Install pip-tools
+        run: pip install pip-tools
+        shell: bash
 
-      - name: Run Tox
-        run: tox
+      - name: Install Dependencies
+        run: |
+          if [ -f "requirements-dev.lock" ]; then
+            pip install -r requirements-dev.lock
+          elif [ -f "pyproject.toml" ]; then
+            pip install -r <(pip-compile --generate-hashes --quiet)
+          else
+            echo "No dependency file found!"
+            exit 1
+        shell: bash
+
+      - name: Run Tests
+        run: pytest
+        shell: bash
